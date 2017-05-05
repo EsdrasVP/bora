@@ -77,6 +77,66 @@ public class BoraController {
 		return true;
 	}
 
+	protected boolean addEventPhoto(String eventID, String photoName) {
+		if (!validatePhotoParams(eventID, photoName)) {
+			return false;
+		}
+
+		for (Event existingEvent : events) {
+			if (existingEvent.getId().equals(eventID)) {
+				existingEvent.getPhotoNames().add(photoName);
+			}
+		}
+
+		return false;
+	}
+
+	private boolean validatePhotoParams(String eventID, String photoName) {
+		if (eventID == null || eventID.isEmpty()) {
+			LOGGER.error("Event ID cannot be null/empty");
+			return false;
+		}
+
+		if (photoName == null || photoName.isEmpty()) {
+			LOGGER.error("Event photo name cannot be null/empty");
+			return false;
+		}
+
+		return false;
+	}
+
+	protected boolean addEventPhotos(String eventID, List<String> photoNames) {
+		if (!validatePhotoNamesParams(eventID, photoNames)) {
+			return false;
+		}
+
+		for (Event existingEvent : events) {
+			if (existingEvent.getId().equals(eventID)) {
+				for (String photo : photoNames) {
+					existingEvent.getPhotoNames().add(photo);
+				}
+			}
+		}
+
+		LOGGER.debug("Event with ID " + eventID + " does not exist");
+		return false;
+	}
+
+	private boolean validatePhotoNamesParams(String eventID,
+			List<String> photoNames) {
+		if (eventID == null || eventID.isEmpty()) {
+			LOGGER.error("Event ID cannot be null/empty");
+			return false;
+		}
+
+		if (photoNames == null) {
+			LOGGER.error("Event photo names cannot be null");
+			return false;
+		}
+
+		return false;
+	}
+
 	protected List<Attendee> getEventAttendees(String eventID) {
 		for (Event existingEvent : events) {
 			if (existingEvent.getId().equals(eventID)) {
