@@ -15,7 +15,7 @@
     <link href="cover.css" rel="stylesheet">
   </head>
 
-  <body ng-controller="ViewEventsController">
+  <body>
 
     <div class="site-wrapper">
 
@@ -28,46 +28,14 @@
               <h3 class="masthead-brand">Bora?</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Ver Eventos</a></li>
-                  <li><a href="#">Novo Evento</a></li>
+                  <li><a href="#">Ver Eventos</a></li>
+                  <li><a href="http://localhost:8080/frontend/views/#!/event/create">Novo Evento</a></li>
                 </ul>
               </nav>
             </div>
           </div>
 
-          <div class="inner cover">
-
-            <h1 class="cover-heading">Eventos</h1>
-
-            <br>
-            <br>
-
-            <div class="panel panel-default" ng-repeat="registeredEvent in events"
-                 ng-class="{'panel-primary': !isInThePast(registeredEvent.date), 'panel-success': isInThePast(registeredEvent.date)}">
-              <div class="panel-heading">
-                {{ registeredEvent.name }} em 
-                {{ registeredEvent.date | date : "dd/MM/yyyy"}} às
-                {{ registeredEvent.date | date : "HH:mm"}}
-              </div>
-
-              <div class="panel-body" style="color:black; text-align: left">
-
-                <p style="text-align: center">Pessoas:</p>
-
-                <div id="wrapper" style="text-align: center">    
-                  <div style="width: 200px; height: 150px; overflow-y: scroll; color: black; display: inline-block;">
-                    <ul class="list-group">
-                      <li class="list-group-item" ng-repeat="person in registeredEvent.people">{{ person }}</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <button type="button" class="btn btn-primary">Ver Evento</button>
-
-              </div>
-            </div>
-
-          </div>
+          <div ui-view></div>
 
           <div class="mastfoot">
             <div class="inner">
@@ -80,6 +48,7 @@
       </div>
 
     </div>
+
 
     <script src="../lib/angularjs-1.6.4/angular.min.js"></script>
     <script src="../lib/angular-ui-router/angular-ui-router.js"></script>

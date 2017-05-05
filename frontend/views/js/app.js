@@ -1,4 +1,4 @@
-var app = angular.module('boraApp', []);
+var app = angular.module('boraApp', ['ui.router']);
 
 app.controller('ViewEventController', function ViewEventController($scope) {
 
@@ -41,3 +41,45 @@ app.controller('ViewEventsController', function ViewEventsController($scope) {
   }
 
 });
+
+(function() {
+    'use strict';
+
+    angular
+        .module('boraApp')
+        .config(function($stateProvider, $urlRouterProvider) {
+            $stateProvider
+                .state('viewEvents', {
+                    url: '/',
+                    templateUrl: 'partials/view-events.html',
+                    controller: 'ViewEventsController',
+                    controllerAs: 'viewEvents'
+                })
+                .state('createEvent', {
+                    url: '/event/create',
+                    templateUrl: 'partials/create-event.html',
+                    controller: 'CreateEventController',
+                    controllerAs: 'createEvent'
+                })
+                .state('viewEvent', {
+                    url: '/event/view/:id',
+                    templateUrl: 'partials/view-event.html',
+                    controller: 'ViewEventController',
+                    controllerAs: 'viewEvent'
+                })
+
+                // .state('new', {
+                //     url: '/new',
+                //     templateUrl: '/assets/partials/new.html',
+                //     controller: 'NewAdCtrl'
+                // })
+                // .state('view', {
+                //     url: '/view/:id',
+                //     templateUrl: '/assets/partials/view.html',
+                //     controller: 'ViewAdCtrl'
+                // });
+
+            $urlRouterProvider
+                .otherwise('/');
+        })
+})();

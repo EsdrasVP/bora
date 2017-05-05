@@ -1,0 +1,38 @@
+<div class="inner cover">
+
+  <h1 class="cover-heading">{{ event.name }}</h1>
+
+  <br>
+
+  <p><span class="question">Quando?</span> {{ event.date | date : "dd/MM/yyyy"}} às {{ event.date | date : "HH:mm" }}</p>
+  <p><span class="question">Onde?</span> {{ event.local }}</p>
+
+  <br>
+
+  <p>Quem vai?</p>
+
+  <div id="wrapper" style="text-align: center" ng-show="event.people.length > 0">
+    <div style="width: 200px; height: 200px; overflow-y: scroll; color: black; display: inline-block;">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="person in event.people">{{ person }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <p>E aí? Vamo ou Bora? Digite seu nome abaixo para participar!</p>
+
+  <div class="input-group">
+    <span class="input-group-addon" id="basic-addon1">A</span>
+    <input type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon1">
+  </div>
+
+  <br>
+
+  <p class="lead">
+    <a href="#" class="btn btn-lg btn-default">Eu vou!</a>
+  </p>
+
+</div>
