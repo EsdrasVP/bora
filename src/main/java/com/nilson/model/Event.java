@@ -21,22 +21,26 @@ public class Event implements Serializable {
 	private static final long serialVersionUID = -6111900503095749695L;
 
 	public Event(String name, Date date) {
-		this(UUID.randomUUID(), name, date, new ArrayList<Attendee>());
+		this(UUID.randomUUID(), name, date, new ArrayList<Attendee>(),
+				new ArrayList<String>());
 	}
 
-	public Event(UUID id, String name, Date date, List<Attendee> attendees) {
+	public Event(UUID id, String name, Date date, List<Attendee> attendees,
+			List<String> photoNames) {
 		this.id = id;
 		this.name = name;
 		this.date = date;
 		this.attendees = attendees;
+		this.photoNames = photoNames;
 	}
-	
-	public JSONObject toJson(JSONObject attrToFilterJsonObject) {
+
+	public JSONObject toJson() {
 		JSONObject toJson = new JSONObject();
 		toJson.put(BoraApplicationConstants.EVENT_ID_KEY_JSON, id)
 				.put(BoraApplicationConstants.EVENT_NAME_KEY_JSON, name)
 				.put(BoraApplicationConstants.EVENT_DATE_KEY_JSON, date)
-				.put(BoraApplicationConstants.EVENT_ATTENDEES_KEY_JSON, attendees)
+				.put(BoraApplicationConstants.EVENT_ATTENDEES_KEY_JSON,
+						attendees)
 				.put(BoraApplicationConstants.EVENT_PHOTOS_KEY_JSON, photoNames);
 		return toJson;
 	}
@@ -72,11 +76,11 @@ public class Event implements Serializable {
 	public void setAttendees(List<Attendee> attendees) {
 		this.attendees = attendees;
 	}
-	
+
 	public List<String> getPhotoNames() {
 		return photoNames;
 	}
-	
+
 	public void setPhotoNames(List<String> photoNames) {
 		this.photoNames = photoNames;
 	}

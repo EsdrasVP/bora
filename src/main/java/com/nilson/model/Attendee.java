@@ -14,7 +14,7 @@ public class Attendee {
 		this.name = name;
 	}
 	
-	public JSONObject toJson(JSONObject attrToFilterJsonObject) {
+	public JSONObject toJson() {
 		JSONObject toJson = new JSONObject();
 		toJson.put(BoraApplicationConstants.ATTENDEE_EMAIL_KEY_JSON, email).put(
 				BoraApplicationConstants.ATTENDEE_NAME_KEY_JSON, name);
