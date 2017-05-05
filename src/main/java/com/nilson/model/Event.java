@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.json.JSONObject;
+
+import com.nilson.util.BoraApplicationConstants;
+
 public class Event implements Serializable {
 
 	private UUID id;
@@ -25,6 +29,16 @@ public class Event implements Serializable {
 		this.name = name;
 		this.date = date;
 		this.attendees = attendees;
+	}
+	
+	public JSONObject toJson(JSONObject attrToFilterJsonObject) {
+		JSONObject toJson = new JSONObject();
+		toJson.put(BoraApplicationConstants.EVENT_ID_KEY_JSON, id)
+				.put(BoraApplicationConstants.EVENT_NAME_KEY_JSON, name)
+				.put(BoraApplicationConstants.EVENT_DATE_KEY_JSON, date)
+				.put(BoraApplicationConstants.EVENT_ATTENDEES_KEY_JSON, attendees)
+				.put(BoraApplicationConstants.EVENT_PHOTOS_KEY_JSON, photoNames);
+		return toJson;
 	}
 
 	public UUID getId() {
