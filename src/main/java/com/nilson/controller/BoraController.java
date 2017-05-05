@@ -43,30 +43,28 @@ public class BoraController {
 		return true;
 	}
 	
-	protected boolean addAttendeeToEvent(String attendeeEmail, String attendeeName, Event event) {
-		LOGGER.debug("Adding attendee " + attendeeName + " to event " + event.getName());
-		
+	protected boolean addAttendeeToEvent(String attendeeEmail, String attendeeName, String eventID) {		
 		for(Event existingEvent : events) {
-			if(existingEvent.equals(event)) {
+			if(existingEvent.getId().equals(eventID)) {
+				LOGGER.debug("Adding attendee " + attendeeName + " to event " + existingEvent.getName());
 				existingEvent.getAttendees().add(new Attendee(attendeeEmail, attendeeName));
 				return true;
 			}
 		}
 		
-		LOGGER.debug("Event " + event.getName() + " does not exist");
+		LOGGER.debug("Event with ID " + eventID + " does not exist");
 		return false;
 	}
 	
-	protected List<Attendee> getEventAttendees(Event event) {
-		LOGGER.debug("Getting list of attendees for event " + event);
-		
+	protected List<Attendee> getEventAttendees(String eventID) {		
 		for(Event existingEvent : events) {
-			if(existingEvent.equals(event)) {
+			if(existingEvent.getId().equals(eventID)) {
+				LOGGER.debug("Getting list of attendees for event " + existingEvent.getName());
 				return existingEvent.getAttendees();
 			}
 		}
 		
-		LOGGER.debug("Event " + event.getName() + " does not exist");
+		LOGGER.debug("Event with ID " + eventID + " does not exist");
 		return null;
 	}
 }
