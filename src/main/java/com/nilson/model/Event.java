@@ -7,20 +7,20 @@ import java.util.List;
 import java.util.UUID;
 
 public class Event implements Serializable {
-	
+
 	private UUID id;
 	private String name;
 	private Date date;
 	private List<Attendee> attendees;
-	
+	private List<String> photoNames;
+
 	private static final long serialVersionUID = -6111900503095749695L;
-	
+
 	public Event(String name, Date date) {
 		this(UUID.randomUUID(), name, date, new ArrayList<Attendee>());
 	}
 
-	public Event(UUID id, String name, Date date,
-			List<Attendee> attendees) {
+	public Event(UUID id, String name, Date date, List<Attendee> attendees) {
 		this.id = id;
 		this.name = name;
 		this.date = date;
@@ -57,5 +57,13 @@ public class Event implements Serializable {
 
 	public void setAttendees(List<Attendee> attendees) {
 		this.attendees = attendees;
+	}
+	
+	public List<String> getPhotoNames() {
+		return photoNames;
+	}
+	
+	public void setPhotoNames(List<String> photoNames) {
+		this.photoNames = photoNames;
 	}
 }

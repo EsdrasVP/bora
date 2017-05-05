@@ -1,7 +1,7 @@
 package com.nilson.model;
 
 public class Attendee {
-	
+
 	private String email;
 	private String name;
 
