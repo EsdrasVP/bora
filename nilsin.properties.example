@@ -1,0 +1,5 @@
+# base uri port
+base.port=8080
+
+# session login timeout - jersey timeout
+timeout_session=20
