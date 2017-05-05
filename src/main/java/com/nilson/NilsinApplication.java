@@ -8,7 +8,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import com.nilson.controller.BoraController;
+import com.nilson.controller.ApplicationController;
 import com.nilson.resource.CORSResponseFilter;
 import com.nilson.util.json.JSONArrayBodyReader;
 import com.nilson.util.json.JSONArrayBodyWriter;
@@ -30,13 +30,13 @@ public class NilsinApplication extends ResourceConfig {
 	
 	private NilsinApplication init(final Properties properties) throws SQLException {	
 		LOGGER.debug("Init nilsin app.");
-		final BoraController boraController = new BoraController();
+		final ApplicationController applicationController = new ApplicationController();
 		
 		packages(NilsinApplication.class.getPackage().toString());
 		register(new AbstractBinder() {
             @Override
             protected void configure() {
-            	bind(boraController).to(BoraController.class);
+            	bind(applicationController).to(ApplicationController.class);
                 bind(properties).to(Properties.class);
             }
         });

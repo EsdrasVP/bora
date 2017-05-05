@@ -1,7 +1,10 @@
 package com.nilson.resource;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Properties;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -21,6 +24,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
+import com.nilson.controller.ApplicationController;
+import com.nilson.model.Event;
+
 @Path(EventResource.EVENT_BASE_URL)
 public class EventResource {
 
@@ -34,11 +40,18 @@ public class EventResource {
 	@Context
 	private HttpServletRequest request;
 		
+	@Inject
+	private Properties properties;
+	
+	@Inject
+	private ApplicationController applicationController;
+	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEvents(@QueryParam(JSON_QUERY_ATTR) String jsonStrEncoded) {
         try {
-			return Response.status(Status.OK).entity("{event:\"Eventao\"}").build();
+        	List<Event> events = applicationController.getEvents();
+			return Response.status(Status.OK).entity(Event.toJson(events)).build();
 		} catch (Exception e) {
 			LOGGER.error("Couldn't retrive events.", e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
@@ -48,9 +61,10 @@ public class EventResource {
 	@GET
 	@Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getEvent(@PathParam("id") Long id) {
+    public Response getEvent(@PathParam("id") String id) {
         try {
-			return Response.status(Status.OK).entity("").build();
+        	Event event = this.applicationController.getEvent(id);
+			return Response.status(Status.OK).entity(event.toJson()).build();
 		} catch (Exception e) {
 			LOGGER.error("Couldn't retrieve event", e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
@@ -63,7 +77,12 @@ public class EventResource {
     public Response createEvent(JSONObject json) throws SQLException {
 		LOGGER.debug("Creating event " + json.toString());
 		try {
-			return Response.status(Status.CREATED).entity("").build();
+			Event event = Event.fromJson(json);
+			this.applicationController.createEvent(event.getName(), event.getLocal(), event.getDate());
+			
+//			UUID randomUUID = UUID.randomUUID();
+//			EventResourceHelper.createEventQRCode(randomUUID.toString(), this.properties);
+			return Response.status(Status.CREATED).entity(event.toJson()).build();
 		} catch (Exception e) {
 			LOGGER.error("Couldn't create event.", e);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();

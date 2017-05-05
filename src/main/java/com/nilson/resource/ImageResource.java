@@ -24,9 +24,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.commons.io.IOUtils;
 import org.glassfish.grizzly.http.util.URLDecoder;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -70,7 +70,7 @@ public class ImageResource {
 	}
 
 	private String getImageRootPath() {
-		String filesPath = properties.getProperty("files_path");
+		String filesPath = this.properties.getProperty("files_path");
 		if (filesPath == null) {
 			LOGGER.warn("There is no file path set for image storage.");
 		}
@@ -91,7 +91,7 @@ public class ImageResource {
 		}
 		
 		String rootPath = getImageRootPath();
-    	String absolutePath = rootPath + "/files/" + relativePath;
+    	String absolutePath = rootPath + relativePath;
 		
 		File file = new File(absolutePath);
 		if (file.exists()) {

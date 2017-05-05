@@ -6,8 +6,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
- 
+
 import javax.imageio.ImageIO;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
@@ -17,18 +21,18 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  
 public class CrunchifyQRCode {
  
-    public static void generateQRCode() {
-        String myCodeText = "";
-        
-        String filePath = "files/test/CrunchifyQR.png";
+	private static final Logger LOGGER = LogManager.getLogger(CrunchifyQRCode.class);
+	
+    public static void generateQRCode(String content, String filePath) {        
         int size = 125;
         String fileType = "png";
-        File myFile = new File(filePath);
+        File myFile = new File(filePath + "." + fileType);
         try {
             Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
             hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix byteMatrix = qrCodeWriter.encode(myCodeText,BarcodeFormat.QR_CODE, size, size, hintMap);
+			BitMatrix byteMatrix = qrCodeWriter.encode(
+					content, BarcodeFormat.QR_CODE, size, size, hintMap);
             int CrunchifyWidth = byteMatrix.getWidth();
             BufferedImage image = new BufferedImage(CrunchifyWidth, CrunchifyWidth,
                     BufferedImage.TYPE_INT_RGB);
@@ -48,9 +52,9 @@ public class CrunchifyQRCode {
             }
             ImageIO.write(image, fileType, myFile);
         } catch (WriterException e) {
-            e.printStackTrace();
+        	LOGGER.error(e);
         } catch (IOException e) {
-            e.printStackTrace();
+        	LOGGER.error(e);
         }
     }      
 }

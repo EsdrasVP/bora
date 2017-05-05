@@ -3,3 +3,9 @@ base.port=8080
 
 # session login timeout - jersey timeout
 timeout_session=20
+
+# domain
+domain=
+
+# files path
+files_path=

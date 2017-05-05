@@ -2,7 +2,7 @@ package com.nilson.model;
 
 import org.json.JSONObject;
 
-import com.nilson.util.BoraApplicationConstants;
+import com.nilson.util.ApplicationConstants;
 
 public class Attendee {
 
@@ -16,8 +16,8 @@ public class Attendee {
 	
 	public JSONObject toJson() {
 		JSONObject toJson = new JSONObject();
-		toJson.put(BoraApplicationConstants.ATTENDEE_EMAIL_KEY_JSON, email).put(
-				BoraApplicationConstants.ATTENDEE_NAME_KEY_JSON, name);
+		toJson.put(ApplicationConstants.ATTENDEE_EMAIL_KEY_JSON, email).put(
+				ApplicationConstants.ATTENDEE_NAME_KEY_JSON, name);
 		return toJson;
 	}
 
