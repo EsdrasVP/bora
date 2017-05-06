@@ -70,6 +70,8 @@ app.controller('ViewEventsController', function($scope, $http, $location) {
   });
 
   $scope.uploadPhotos = function() {
+    alert("Quase tudo implementado.  :D ");
+    /**
     var url = global_url_test + '/image';
 
     var config = {
@@ -85,7 +87,8 @@ app.controller('ViewEventsController', function($scope, $http, $location) {
       .then(function(response) {
             alert('Evento criado !');
             $location.path("/#");
-      });    
+      });
+    **/
   }
 
   $scope.isInThePast = function(date) {
