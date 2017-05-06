@@ -18,14 +18,15 @@ public class ApplicationController {
 		this.events = new ArrayList<Event>();
 	}
 
-	public boolean createEvent(String eventName, String local, Date eventDate) {
+	public Event createEvent(String eventName, String local, Date eventDate) {
 		LOGGER.debug("Creating event " + eventName);
 		if (!validateEventParams(eventName, eventDate)) {
-			return false;
+			return null;
 		}
 
-		events.add(new Event(eventName, local, eventDate));
-		return true;
+		Event event = new Event(eventName, local, eventDate);
+		events.add(event);
+		return event;
 	}
 
 	public boolean validateEventParams(String eventName, Date eventDate) {
@@ -49,7 +50,7 @@ public class ApplicationController {
 		}
 
 		for (Event existingEvent : events) {
-			if (existingEvent.getId().equals(eventID)) {
+			if (existingEvent.getId().toString().equals(eventID)) {
 				LOGGER.debug("Adding attendee " + attendeeName + " to event "
 						+ existingEvent.getName());
 				existingEvent.getAttendees().add(
@@ -152,7 +153,7 @@ public class ApplicationController {
 
 	public Event getEvent(String eventID) {
 		for (Event existingEvent : events) {
-			if (existingEvent.getId().equals(eventID)) {
+			if (existingEvent.getId().toString().equals(eventID)) {
 				LOGGER.debug("Getting event " + existingEvent.getName()
 						+ " with ID" + existingEvent.getId());
 				return existingEvent;

@@ -11,10 +11,10 @@
 
   <p>Quem vai?</p>
 
-  <div id="wrapper" style="text-align: center" ng-show="event.people.length > 0">
+  <div id="wrapper" style="text-align: center" ng-show="event.attendees.length > 0">
     <div style="width: 200px; height: 200px; overflow-y: scroll; color: black; display: inline-block;">
       <ul class="list-group">
-        <li class="list-group-item" ng-repeat="person in event.people">{{ person }}</li>
+        <li class="list-group-item" ng-repeat="person in event.attendees">{{ person.name }}</li>
       </ul>
     </div>
   </div>
@@ -26,13 +26,13 @@
 
   <div class="input-group">
     <span class="input-group-addon" id="basic-addon1">A</span>
-    <input type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon1">
+    <input type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon1" ng-model="attendee.name">
   </div>
 
   <br>
 
   <p class="lead">
-    <a href="#" class="btn btn-lg btn-default">Eu vou!</a>
+    <a class="btn btn-lg btn-default" ng-click="confirm()">Eu vou!</a>
   </p>
 
 </div>

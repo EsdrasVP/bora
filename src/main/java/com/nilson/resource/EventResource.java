@@ -3,6 +3,7 @@ package com.nilson.resource;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.nilson.controller.ApplicationController;
+import com.nilson.model.Attendee;
 import com.nilson.model.Event;
 
 @Path(EventResource.EVENT_BASE_URL)
@@ -70,6 +72,23 @@ public class EventResource {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
     }
+
+	@POST
+	@Path("/confirm/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+    public Response addAttendeeInEvent(JSONObject json, @PathParam("id") String id) throws SQLException {
+		LOGGER.debug("Add attendee " + json.toString());
+		try {
+			Attendee attendee = Attendee.fromJson(json);
+			this.applicationController.addAttendeeToEvent("@", attendee.getName(), id);
+			
+			return Response.status(Status.CREATED).entity("{}").build();
+		} catch (Exception e) {
+			LOGGER.error("Couldn't add attendee.", e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+    }	
 	
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -78,10 +97,9 @@ public class EventResource {
 		LOGGER.debug("Creating event " + json.toString());
 		try {
 			Event event = Event.fromJson(json);
-			this.applicationController.createEvent(event.getName(), event.getLocal(), event.getDate());
+			event = this.applicationController.createEvent(event.getName(), event.getLocal(), event.getDate());
 			
-//			UUID randomUUID = UUID.randomUUID();
-//			EventResourceHelper.createEventQRCode(randomUUID.toString(), this.properties);
+			EventResourceHelper.createEventQRCode(event.getId().toString(), this.properties);
 			return Response.status(Status.CREATED).entity(event.toJson()).build();
 		} catch (Exception e) {
 			LOGGER.error("Couldn't create event.", e);

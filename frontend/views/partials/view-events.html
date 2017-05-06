@@ -5,29 +5,48 @@
   <br>
   <br>
 
-  <div class="panel panel-default" ng-repeat="registeredEvent in events"
-       ng-class="{'panel-primary': !isInThePast(registeredEvent.date), 'panel-success': isInThePast(registeredEvent.date)}">
-    <div class="panel-heading">
-      {{ registeredEvent.name }} em 
-      {{ registeredEvent.date | date : "dd/MM/yyyy"}} às
-      {{ registeredEvent.date | date : "HH:mm"}}
-    </div>
 
-    <div class="panel-body" style="color:black; text-align: left">
-
-      <p style="text-align: center">Pessoas:</p>
-
-      <div id="wrapper" style="text-align: center">    
-        <div style="width: 200px; height: 150px; overflow-y: scroll; color: black; display: inline-block;">
-          <ul class="list-group">
-            <li class="list-group-item" ng-repeat="person in registeredEvent.people">{{ person }}</li>
-          </ul>
-        </div>
+  <div  ng-show="events.length > 0">
+    <div class="panel panel-default" ng-repeat="registeredEvent in events | reverse"
+         ng-class="{'panel-primary': !isInThePast(registeredEvent.date), 'panel-success': isInThePast(registeredEvent.date)}">
+      <div class="panel-heading">
+        {{ registeredEvent.name }} em 
+        {{ registeredEvent.date | date : "dd/MM/yyyy"}} às
+        {{ registeredEvent.date | date : "HH:mm"}}
       </div>
 
-      <button type="button" class="btn btn-primary">Ver Evento</button>
+      <div class="panel-body" style="color:black; text-align: left">
 
+        <p style="text-align: left"> {{ registeredEvent.attendees.length }} - Pessoa(s) na confra:</p>
+
+      
+        <div id="wrapper" style="text-align: left">    
+          <div style="width: 200px; max-height: 150px; overflow-y: auto; color: black; display: inline-block;">
+            <div  ng-show="registeredEvent.attendees.length > 0">
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="person in registeredEvent.attendees">{{ person.name }}</li>
+              </ul>
+            </div>
+            <div ng-show="registeredEvent.attendees.length <= 0">
+              <ul class="list-group">
+                <li class="list-group-item" style="color:red;">Tem ngm não :´{</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <a href="#!/event/view/{{ registeredEvent.id }}" class="btn btn-lg btn-info"> Ver Evento </a>
+        <a href="{{ image_url }}{{ registeredEvent.id }}" class="btn btn-lg btn-primary" target="_blank"> QRCode </a> | 
+        <a class="btn btn-lg btn-success"> Upload </a>
+        <br>
+        <h5> Link : <b>{{ global_url_test }}/#!/event/view/{{ registeredEvent.id }} </b> </h5>
+        
+      </div>
     </div>
   </div>
+  <div  ng-show="events.length <= 0">
+      Sem eventos
+  </div>
+
 
 </div>

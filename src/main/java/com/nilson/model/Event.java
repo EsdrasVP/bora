@@ -41,10 +41,9 @@ public class Event implements Serializable {
 		JSONObject toJson = new JSONObject();
 		toJson.put(ApplicationConstants.EVENT_ID_KEY_JSON, id)
 				.put(ApplicationConstants.EVENT_NAME_KEY_JSON, name)
-				.put(ApplicationConstants.EVENT_LOCAL_KEY_JSON, name)
-				.put(ApplicationConstants.EVENT_DATE_KEY_JSON, date)
-				.put(ApplicationConstants.EVENT_ATTENDEES_KEY_JSON,
-						attendees)
+				.put(ApplicationConstants.EVENT_LOCAL_KEY_JSON, local)
+				.put(ApplicationConstants.EVENT_DATE_KEY_JSON, date.getTime())
+				.put(ApplicationConstants.EVENT_ATTENDEES_KEY_JSON, Attendee.toJson(attendees))
 				.put(ApplicationConstants.EVENT_PHOTOS_KEY_JSON, photoNames);
 		return toJson;
 	}

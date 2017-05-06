@@ -58,7 +58,6 @@ public class ImageResource {
 			} catch (Exception e) {}
 		}
 		
-//		String relativePath = authResponse.getUser().getDomain() + "/" + UUID.randomUUID().toString() + ".png";
 		String relativePath = "";
     	String absolutePath = rootPath + "/" + relativePath;
     	
@@ -77,7 +76,6 @@ public class ImageResource {
 		return filesPath;
 	}
  
-//	@Path("/{fileParent}/{fileName}")
 	@Path("/{filePath}")
 	@GET
 	@Produces("image/png")
@@ -91,7 +89,7 @@ public class ImageResource {
 		}
 		
 		String rootPath = getImageRootPath();
-    	String absolutePath = rootPath + relativePath;
+    	String absolutePath = rootPath + "/qrcode/" + relativePath + ".png";
 		
 		File file = new File(absolutePath);
 		if (file.exists()) {

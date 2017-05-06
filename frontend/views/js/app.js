@@ -1,45 +1,84 @@
 var app = angular.module('boraApp', ['ui.router']);
 
-app.controller('ViewEventController', function ViewEventController($scope) {
+// TODO add url in the config
+var global_url_test="http://localhost:8080";
+var global_url_front_test="http://localhost:8000";
+var image_url=global_url_test + "/image/";
 
-  $scope.event = {"date": new Date(2017, 1, 19, 16, 30),
-                  "name": "Feijoada do Hackeie o LSD",
-                  "local": "LSD",
-                  "people": ["Arnett", "Manel", "Chico", "Esdras", "Igor", "Fubica", "Raquel"]};
+app.controller('ViewEventController', function ViewEventController($scope, $http, $stateParams, $location) {
 
-});
+  $http.get(global_url_test + '/event/' + $stateParams.id)
+    .then(function (result) {
+      $scope.event = result.data;
+  });
 
-app.controller('CreateEventController', function CreateEventController($scope) {
+  $scope.confirm = function() {
+    var config = {
+      headers : {
+          'Content-Type': 'application/json'
+      }
+    }
 
-  $scope.newEvent = {}
+    dataObj = {"name" : $scope.attendee.name }
 
-  $scope.showEvent = function() {
-    console.log($scope.newEvent)
+    var url = global_url_test + '/event/confirm/' + $stateParams.id;
+    var data = JSON.stringify(dataObj);
+    $http.post(url, data, config)
+    .then(function(response) {
+          console.log(response);
+          alert('Confirmado !');
+          $location.path("/#");
+    });        
   }
 
 });
 
-app.controller('ViewEventsController', function ViewEventsController($scope) {
+app.controller('CreateEventController', function($scope, $http, $location) {
+  console.log("Controller");
+  $scope.newEvent = {};
 
-  $scope.events = [{"date": new Date(2017, 4, 6, 12, 30),
-                    "name": "Feijoada do Hackeie o LSD",
-                    "local": "LSD",
-                    "people": ["Arnett", "Manel", "Chico", "Esdras", "Igor", "Fubica", "Raquel"]
-                   },
+  $scope.showEvent = function() {
+    console.log(">>>");
+    var dataObj = {"name": $scope.newEvent.name, "local": $scope.newEvent.local};
 
-                   {"date": new Date(2016, 0, 1, 20, 00),
-                    "name": "Fogbeer",
-                    "local": "Nilson",
-                    "people": ["Fulano", "Sicrano", "Minino", "Whynderssonn", "Joao", "Foo", "Bar"]
-                   }];
+    var config = {
+      headers : {
+          'Content-Type': 'application/json'
+      }
+    }
+
+    var url = global_url_test + '/event';
+    var data = JSON.stringify(dataObj);
+    $http.post(url, data, config)
+    .then(function(response) {
+          alert('Evento criado !');
+          $location.path("/#");
+    });
+  };
+
+  console.log($scope);
+
+});
+
+app.controller('ViewEventsController', function($scope, $http) {
+  $scope.image_url = image_url;
+  $scope.global_url_test = global_url_front_test;
+
+  $http.get(global_url_test + '/event')
+    .then(function (result) {
+        $scope.events = result.data;
+  });
 
   $scope.isInThePast = function(date) {
-    console.log(date)
-    console.log(new Date())
-    console.log(date < new Date())
     return date < new Date();
   }
 
+});
+
+app.filter("reverse", function(){
+    return function(items){
+        return items.slice().reverse();
+    };
 });
 
 (function() {
@@ -51,33 +90,22 @@ app.controller('ViewEventsController', function ViewEventsController($scope) {
             $stateProvider
                 .state('viewEvents', {
                     url: '/',
-                    templateUrl: 'partials/view-events.html',
+                    templateUrl: 'views/partials/view-events.html',
                     controller: 'ViewEventsController',
                     controllerAs: 'viewEvents'
                 })
                 .state('createEvent', {
                     url: '/event/create',
-                    templateUrl: 'partials/create-event.html',
+                    templateUrl: 'views/partials/create-event.html',
                     controller: 'CreateEventController',
                     controllerAs: 'createEvent'
                 })
                 .state('viewEvent', {
                     url: '/event/view/:id',
-                    templateUrl: 'partials/view-event.html',
+                    templateUrl: 'views/partials/view-event.html',
                     controller: 'ViewEventController',
                     controllerAs: 'viewEvent'
                 })
-
-                // .state('new', {
-                //     url: '/new',
-                //     templateUrl: '/assets/partials/new.html',
-                //     controller: 'NewAdCtrl'
-                // })
-                // .state('view', {
-                //     url: '/view/:id',
-                //     templateUrl: '/assets/partials/view.html',
-                //     controller: 'ViewAdCtrl'
-                // });
 
             $urlRouterProvider
                 .otherwise('/');
