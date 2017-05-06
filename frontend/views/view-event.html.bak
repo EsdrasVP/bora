@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="boraApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Bora?</title>
+
+    <link href="../lib/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+  </head>
+
+  <body ng-controller="ViewEventController">
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Bora?</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li><a href="#">Ver Eventos</a></li>
+                  <li><a href="#">Novo Evento</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+
+            <h1 class="cover-heading">{{ event.name }}</h1>
+
+            <br>
+
+            <p><span class="question">Quando?</span> {{ event.date | date : "dd/MM/yyyy"}} às {{ event.date | date : "HH:mm" }}</p>
+            <p><span class="question">Onde?</span> {{ event.local }}</p>
+
+            <br>
+
+            <p> Quem vai? </p>
+
+            <div id="wrapper" style="text-align: center" ng-show="event.people.length > 0">
+              <div style="width: 200px; height: 200px; overflow-y: scroll; color: black; display: inline-block;">
+                <ul class="list-group">
+                  <li class="list-group-item" ng-repeat="person in event.people">{{ person }}</li>
+                </ul>
+              </div>
+            </div>
+
+            <br>
+            <br>
+
+            <p>E aí? Vamo ou Bora? Digite seu nome abaixo para participar!</p>
+
+            <div class="input-group">
+              <span class="input-group-addon" id="basic-addon1">A</span>
+              <input type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon1" ng-model="attendee.name">
+            </div>
+
+            <br>
+
+            <p class="lead">
+              <a class="btn btn-lg btn-default" ng-click="confirm()">Eu vou!</a>
+            </p>
+
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>

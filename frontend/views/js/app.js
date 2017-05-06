@@ -60,7 +60,7 @@ app.controller('CreateEventController', function($scope, $http, $location) {
 
 });
 
-app.controller('ViewEventsController', function($scope, $http) {
+app.controller('ViewEventsController', function($scope, $http, $location) {
   $scope.image_url = image_url;
   $scope.global_url_test = global_url_front_test;
 
@@ -68,6 +68,25 @@ app.controller('ViewEventsController', function($scope, $http) {
     .then(function (result) {
         $scope.events = result.data;
   });
+
+  $scope.uploadPhotos = function() {
+    var url = global_url_test + '/image';
+
+    var config = {
+      headers : {
+          'Content-Type': 'application/json'
+      }
+    }    
+
+    var data = new FormData();        
+    data.append("file",$scope.file);     
+    data.append("photo_path","a");
+    $http.post(url, data, config)
+      .then(function(response) {
+            alert('Evento criado !');
+            $location.path("/#");
+      });    
+  }
 
   $scope.isInThePast = function(date) {
     return date < new Date();
